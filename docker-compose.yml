@@ -1,0 +1,7 @@
+version: '3.7'
+services:
+  app:
+    image: remote.development:1.0-SNAPSHOT
+    ports:
+      - 9000:8080
+      - 9001:5005

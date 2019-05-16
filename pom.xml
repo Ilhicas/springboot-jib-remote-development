@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.ilhicas.springboot</groupId>
+    <artifactId>remote.development</artifactId>
+    <version>1.0-SNAPSHOT</version>
+        <parent>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-parent</artifactId>
+            <version>2.0.1.RELEASE</version>
+        </parent>
+
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-devtools</artifactId>
+                <optional>true</optional>
+            </dependency>
+        </dependencies>
+
+        <properties>
+            <java.version>1.8</java.version>
+        </properties>
+
+        <build>
+            <plugins>
+                <plugin>
+                    <groupId>com.google.cloud.tools</groupId>
+                    <artifactId>jib-maven-plugin</artifactId>
+                    <version>1.2.0</version>
+                    <configuration>
+                        <from>
+                            <image>gcr.io/distroless/java:11</image>
+                        </from>
+                        <to>
+                            <image>${project.artifactId}:${project.version}</image>
+                            <!-- <image>gcr.io/my-gcp-project/${project.artifactId}:${project.version}</image>
+                                      <credHelper>gcr</credHelper> -->
+                        </to>
+                        <container>
+                            <jvmFlags>
+                                <jvmFlag>-Xms256m</jvmFlag>
+                                <jvmFlag>-Xmx512m</jvmFlag>
+                                <jvmFlag>-Xdebug</jvmFlag>
+                                <jvmFlag>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005</jvmFlag>
+                            </jvmFlags>
+                            <mainClass>com.ilhicas.springboot.SpringBootRemote</mainClass>
+                            <ports>
+                                <port>8080</port>
+                                <port>5005</port>
+                                <!-- <port>4000-4004/udp</port> -->
+                            </ports>
+                            <format>OCI</format>
+                            <!-- OR <format>Docker</format> -->
+                            <useCurrentTimestamp>true</useCurrentTimestamp>
+                        </container>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <configuration>
+                        <excludeDevtools>false</excludeDevtools>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </build>
+</project>
